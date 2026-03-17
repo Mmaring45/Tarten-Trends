@@ -51,7 +51,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   westBtn.addEventListener("click", () =>
     displayTeams(allTeams.filter(team => team.conference === "West"))
   );
-
+  if (backBtn){
+        backBtn.addEventListener("click", () => {
+            window.history.back();
+        });
+    }
   
   fetchTeams();
 });
