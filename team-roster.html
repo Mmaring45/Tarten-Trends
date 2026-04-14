@@ -7,13 +7,21 @@
     <link rel="stylesheet" href="roster.css">
 </head>
 <body>
-    <h1>  </h1>
-    <button id="backBtn"> Back</button>
-    <input
-        type ="text"
-        id="searchInput"
-        placeholder="Search for a player..."
-    >
+    <h1>Team Roster</h1>
+
+    <div id="filters">
+        <input type="text" id="searchInput" placeholder="Search players...">
+        <label for="positionFilter">Position:</label>
+        <select id="positionFilter">
+            <option value="all">All Positions</option>
+            <option value="G">Guard</option>
+            <option value="F">Forward</option>
+            <option value="C">Center</option>
+        </select>
+    </div>
+
+    <button id="backBtn">Back</button>
+
     <div id="roster" class= "roster-grid"> </div>
     <table>
         <thead>

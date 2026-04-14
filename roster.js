@@ -1,4 +1,5 @@
 let allPlayers = [];
+
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
@@ -62,28 +63,34 @@ async function fetchTeamRoster() {
 
 fetchTeamRoster();
 
-document.addEventListener("DOMContentLoaded", () =>{
+document.addEventListener("DOMContentLoaded", () => {
     const backBtn = document.getElementById("backBtn");
     const searchInput = document.getElementById("searchInput");
+    const positionFilter = document.getElementById("positionFilter");
     const table = document.querySelector("table");
 
-    if (backBtn){
-        backBtn.addEventListener("click", () => {
-            window.history.back();
-        });
+    if (!table || !searchInput || !positionFilter || !backBtn) {
+        console.error("Missing DOM elements. Check your IDs!");
+        return;
     }
 
-    if (searchInput) {
-        searchInput.addEventListener("input", () => {
-            const searchValue = searchInput.value.toLowerCase();
+    // Go back button
+    backBtn.addEventListener("click", () => window.history.back());
 
-            const filteredPlayers = allPlayers.filter(player =>
-                `${player.first_name} ${player.last_name}`
-                    .toLowerCase()
-                    .includes(searchValue)
-            );
+    // Filter function
+    function filterRoster() {
+        const searchValue = searchInput.value.toLowerCase();
+        const selectedPosition = positionFilter.value;
 
-            loadIntoTable(filteredPlayers, table);
+        const filteredPlayers = allPlayers.filter(player => {
+            const matchesName = `${player.first_name} ${player.last_name}`.toLowerCase().includes(searchValue);
+            const matchesPosition = selectedPosition === "all" || player.position === selectedPosition;
+            return matchesName && matchesPosition;
         });
+
+        loadIntoTable(filteredPlayers, table);
     }
+
+    searchInput.addEventListener("input", filterRoster);
+    positionFilter.addEventListener("change", filterRoster);
 });
